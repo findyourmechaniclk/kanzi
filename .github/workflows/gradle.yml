@@ -30,6 +30,12 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@main
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
       - name: Run Gradle Check
         run: cd ./java && ./gradlew check -x pmdMain -x pmdTest -x checkstyleMain -x checkstyleTest
         env:
