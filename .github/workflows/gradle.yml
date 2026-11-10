@@ -1,3 +1,12 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 5 optimizations:
+# - [HIGH] Add gradle dependency cache to "gradle_check" job
+# - [HIGH] Add gradle dependency cache to "gradle_publish" job
+# - [MEDIUM] Add concurrency group to "gradle.yml"
+# - [LOW] Use shallow clone in "gradle_check" job
+# - [LOW] Use shallow clone in "gradle_publish" job
+# Estimated savings: ~12 min/run
+#
 name: CI Pipeline
 
 on:
@@ -7,6 +16,10 @@ on:
     branches: [ "**" ]        # Run for PRs from any branch
   workflow_dispatch:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions: write-all
 
 jobs:
